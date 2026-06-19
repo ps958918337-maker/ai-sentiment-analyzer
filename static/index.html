@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SentimentIQ - AI Sentiment Analysis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-brain"></i> <span>SentimentIQ</span>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-nav" onclick="showAuthModal('login')"><i class="fas fa-sign-in-alt"></i> Login</button>
+                <button class="btn-nav btn-primary" onclick="showAuthModal('register')"><i class="fas fa-user-plus"></i> Register</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Intelligent Sentiment Analysis</h1>
+                <p class="hero-subtitle">Unlock emotions in text with AI-powered sentiment detection</p>
+                <button class="btn btn-lg btn-gradient" onclick="showAuthModal('register')">
+                    <i class="fas fa-rocket"></i> Get Started Free
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose SentimentIQ?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-zap"></i>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Analyze sentiments in milliseconds with our optimized NLP engines</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Dual Analysis</h3>
+                    <p>TextBlob + VADER for accurate, robust sentiment detection</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-csv"></i>
+                    </div>
+                    <h3>Batch Processing</h3>
+                    <p>Analyze up to 500 texts at once with CSV support</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Web Scraping</h3>
+                    <p>Automatically extract and analyze text from URLs</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Analytics</h3>
+                    <p>Track sentiment trends and view detailed statistics</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Secure</h3>
+                    <p>JWT authentication with encrypted data storage</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div id="auth-section" class="auth-section">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-form" id="loginForm">
+                    <h2>Welcome Back</h2>
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Username</label>
+                            <input type="text" id="loginUsername" placeholder="Enter your username" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-lock"></i> Password</label>
+                            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                        </div>
+                        <button type="submit" class="btn btn-gradient btn-block"><i class="fas fa-sign-in-alt"></i> Login</button>
+                    </form>
+                    <p class="auth-toggle">Don't have an account? <a href="#" onclick="switchAuthForm('register')">Register here</a></p>
+                </div>
+
+                <div class="auth-form hidden" id="registerForm">
+                    <h2>Create Account</h2>
+                    <form onsubmit="handleRegister(event)">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Username</label>
+                            <input type="text" id="registerUsername" placeholder="Choose a username" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-envelope"></i> Email</label>
+                            <input type="email" id="registerEmail" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-lock"></i> Password</label>
+                            <input type="password" id="registerPassword" placeholder="Create a password" required>
+                        </div>
+                        <button type="submit" class="btn btn-gradient btn-block"><i class="fas fa-user-plus"></i> Register</button>
+                    </form>
+                    <p class="auth-toggle">Already have an account? <a href="#" onclick="switchAuthForm('login')">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard (Hidden until logged in) -->
+    <div id="dashboard" class="dashboard hidden">
+        <nav class="dashboard-nav">
+            <div class="container">
+                <div class="dashboard-brand">
+                    <i class="fas fa-brain"></i> SentimentIQ
+                </div>
+                <div class="dashboard-menu">
+                    <button class="nav-item active" onclick="switchTab('analyze')">
+                        <i class="fas fa-wand-magic-sparkles"></i> Analyze
+                    </button>
+                    <button class="nav-item" onclick="switchTab('history')">
+                        <i class="fas fa-history"></i> History
+                    </button>
+                    <button class="nav-item" onclick="switchTab('stats')">
+                        <i class="fas fa-chart-line"></i> Statistics
+                    </button>
+                    <button class="nav-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="dashboard-content">
+            <div class="container">
+                <!-- Analyze Tab -->
+                <div id="analyzeTab" class="tab-content">
+                    <div class="analysis-grid">
+                        <!-- Text Analysis -->
+                        <div class="analysis-card">
+                            <h3><i class="fas fa-font"></i> Text Analysis</h3>
+                            <textarea id="textInput" placeholder="Paste your text here..." rows="6"></textarea>
+                            <button class="btn btn-gradient btn-block" onclick="analyzeText()">
+                                <i class="fas fa-wand-magic-sparkles"></i> Analyze Text
+                            </button>
+                        </div>
+
+                        <!-- URL Analysis -->
+                        <div class="analysis-card">
+                            <h3><i class="fas fa-globe"></i> URL Analysis</h3>
+                            <input type="url" id="urlInput" placeholder="Enter URL (e.g., https://example.com)" class="form-input">
+                            <button class="btn btn-gradient btn-block" onclick="analyzeURL()">
+                                <i class="fas fa-link"></i> Analyze URL
+                            </button>
+                        </div>
+
+                        <!-- CSV Analysis -->
+                        <div class="analysis-card">
+                            <h3><i class="fas fa-file-csv"></i> CSV Batch Analysis</h3>
+                            <div class="file-upload">
+                                <input type="file" id="csvFile" accept=".csv" onchange="handleFileSelect()">
+                                <label for="csvFile"><i class="fas fa-cloud-upload-alt"></i> Choose CSV File</label>
+                            </div>
+                            <input type="text" id="columnName" placeholder="Column name (optional)" class="form-input">
+                            <button class="btn btn-gradient btn-block" onclick="analyzeCSV()">
+                                <i class="fas fa-upload"></i> Analyze CSV
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Results Section -->
+                    <div id="resultsSection" class="results-section hidden">
+                        <h2>Analysis Results</h2>
+                        <div class="results-container">
+                            <div class="result-card">
+                                <h4>Sentiment</h4>
+                                <div class="sentiment-display">
+                                    <div id="sentimentLabel" class="sentiment-badge">--</div>
+                                    <div id="confidenceScore" class="confidence">Confidence: --%</div>
+                                </div>
+                            </div>
+
+                            <div class="result-card">
+                                <h4>Scores</h4>
+                                <div class="scores-display">
+                                    <div class="score-item">
+                                        <label>Polarity</label>
+                                        <div class="score-bar">
+                                            <div id="polarityBar" class="score-fill"></div>
+                                        </div>
+                                        <span id="polarityValue">0.00</span>
+                                    </div>
+                                    <div class="score-item">
+                                        <label>Subjectivity</label>
+                                        <div class="score-bar">
+                                            <div id="subjectivityBar" class="score-fill"></div>
+                                        </div>
+                                        <span id="subjectivityValue">0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="result-card">
+                                <h4>Detailed Analysis</h4>
+                                <div class="detailed-scores">
+                                    <div class="score-row">
+                                        <span>VADER Compound</span>
+                                        <strong id="vaderCompound">0.00</strong>
+                                    </div>
+                                    <div class="score-row">
+                                        <span>Positive</span>
+                                        <strong id="vaderPositive">0.00</strong>
+                                    </div>
+                                    <div class="score-row">
+                                        <span>Negative</span>
+                                        <strong id="vaderNegative">0.00</strong>
+                                    </div>
+                                    <div class="score-row">
+                                        <span>Neutral</span>
+                                        <strong id="vaderNeutral">0.00</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Batch Results -->
+                    <div id="batchResultsSection" class="results-section hidden">
+                        <h2>Batch Analysis Results</h2>
+                        <div class="batch-stats">
+                            <div class="stat-box">
+                                <div class="stat-number" id="batchTotal">0</div>
+                                <div class="stat-label">Total Texts</div>
+                            </div>
+                            <div class="stat-box positive">
+                                <div class="stat-number" id="batchPositive">0</div>
+                                <div class="stat-label">Positive</div>
+                            </div>
+                            <div class="stat-box negative">
+                                <div class="stat-number" id="batchNegative">0</div>
+                                <div class="stat-label">Negative</div>
+                            </div>
+                            <div class="stat-box neutral">
+                                <div class="stat-number" id="batchNeutral">0</div>
+                                <div class="stat-label">Neutral</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Tab -->
+                <div id="historyTab" class="tab-content hidden">
+                    <h2>Analysis History</h2>
+                    <div id="historyList" class="history-list">
+                        <p class="empty-state"><i class="fas fa-inbox"></i> No analyses yet</p>
+                    </div>
+                </div>
+
+                <!-- Statistics Tab -->
+                <div id="statsTab" class="tab-content hidden">
+                    <h2>Your Statistics</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4>Total Analyses</h4>
+                            <div class="stat-number" id="statTotal">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Positive</h4>
+                            <div class="stat-number positive" id="statPositive">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Negative</h4>
+                            <div class="stat-number negative" id="statNegative">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Neutral</h4>
+                            <div class="stat-number neutral" id="statNeutral">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Avg Confidence</h4>
+                            <div class="stat-number" id="statAvgConfidence">0%</div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Avg Polarity</h4>
+                            <div class="stat-number" id="statAvgPolarity">0.00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="spinner hidden">
+        <div class="spinner-content">
+            <div class="spinner-animation"></div>
+            <p>Processing...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

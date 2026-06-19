@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: sentimentiq-api
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=dev-secret-key-change-in-production
+      - DATABASE_URL=sqlite:///./sentimentiq.db
+      - ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=1440
+    volumes:
+      - .:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - sentimentiq-network
+
+  # Optional: Add PostgreSQL for production-like development
+  # postgres:
+  #   image: postgres:16-alpine
+  #   container_name: sentimentiq-db
+  #   environment:
+  #     POSTGRES_DB: sentimentiq
+  #     POSTGRES_USER: sentimentiq
+  #     POSTGRES_PASSWORD: sentimentiq-password
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   networks:
+  #     - sentimentiq-network
+
+networks:
+  sentimentiq-network:
+    driver: bridge
+
+# volumes:
+#   postgres_data:
