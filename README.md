@@ -723,7 +723,6 @@ For issues and questions, please open an issue in the repository.
 | **JavaScript Functions** | 20+ |
 | **Documentation Pages** | 5 |
 | **GitHub Commits** | 1+ |
-| **Time Invested** | 6 Weeks |
 
 ---
 
