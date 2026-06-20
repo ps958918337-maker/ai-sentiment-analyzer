@@ -6,7 +6,7 @@
 |-------|-------------|
 | **Intern ID** | CITS4872 |
 | **Full Name** | Priyanshu Singh |
-| **Duration** | 6 Weeks |
+| **No. of Weeks** | 6 Weeks |
 | **Project Name** | AI Sentiment Analyzer |
 | **Repository** | [ai-sentiment-analyzer](https://github.com/ps958918337-maker/ai-sentiment-analyzer) |
 
@@ -689,7 +689,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 **Intern:** Priyanshu Singh  
 **Intern ID:** CITS4872  
-**Duration:** 6 Weeks  
+**No. of Weeks:** 6 Weeks  
 **Project:** AI Sentiment Analyzer  
 **Created:** January 2024
 
